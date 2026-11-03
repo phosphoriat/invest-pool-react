@@ -44,10 +44,15 @@ export function useCabinet(client, user) {
     setBusy(true);
     setMessage(null);
     try {
-      await client.command(path, user, body);
+      const result = await client.command(path, user, body);
       accepted?.();
       if (mounted.current) {
-        setMessage({ error: false, text: "Операция сохранена" });
+        setMessage({
+          error: false,
+          text: result?.replayed
+            ? "Повтор: операция уже выполнена, состояние не изменилось"
+            : "Операция сохранена",
+        });
         await refresh();
       }
     } catch (error) {
