@@ -9,7 +9,7 @@ const statuses = {
 
 // ProjectCard Render server-filtered project data and commands available to the selected role.
 export function ProjectCard({ project, user, execute, busy }) {
-  const { id, title, solutions, match, pool } = project;
+  const { id, title, solutions, matched, match, pool } = project;
   const base = `/problems/${id}`;
   const command = { execute, busy };
   return (
@@ -20,7 +20,7 @@ export function ProjectCard({ project, user, execute, busy }) {
         <section key={solution.id}>
           <p>{solution.description}</p>
           <small>Технолог: {solution.technologist_id}</small>
-          {user.role === "expert" && !match && (
+          {user.role === "expert" && !matched && (
             <CommandForm
               {...command}
               label="Подтвердить матч"
@@ -30,7 +30,7 @@ export function ProjectCard({ project, user, execute, busy }) {
           )}
         </section>
       ))}
-      {user.role === "technologist" && !match && (
+      {user.role === "technologist" && !matched && (
         <CommandForm
           {...command}
           label="Предложить решение"
@@ -45,7 +45,12 @@ export function ProjectCard({ project, user, execute, busy }) {
         />
       )}
       {match && <p>✓ Матч подтверждён экспертом {match.expert_id}</p>}
-      {user.role === "region" && match && !pool && (
+      {matched && !match && (
+        <p className="muted">
+          Эксперт выбрал решение другого технолога, приём предложений закрыт.
+        </p>
+      )}
+      {user.role === "region" && matched && !pool && (
         <CommandForm
           {...command}
           label="Создать пул"
@@ -89,7 +94,6 @@ export function ProjectCard({ project, user, execute, busy }) {
               {...command}
               label="Зафиксировать прибыль"
               path={`${base}/profit`}
-              scope={`${user.id}:${pool.id}:profit`}
               fields={[
                 {
                   name: "amount",
@@ -116,10 +120,7 @@ export function ProjectCard({ project, user, execute, busy }) {
                   {...command}
                   label="Повторить ту же операцию"
                   path={`${base}/profit`}
-                  extra={{
-                    amount: pool.distribution.profit,
-                    key: pool.distribution.key,
-                  }}
+                  extra={{ amount: pool.distribution.profit }}
                 />
               )}
               <small>Распределение: {pool.distribution.id}</small>

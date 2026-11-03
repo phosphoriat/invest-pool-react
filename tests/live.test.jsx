@@ -104,6 +104,7 @@ it("completes the React cabinet scenario through Vite proxy and the Go REST API"
   await screen.findByText(/investor-a: \+60\s000/);
   expect(screen.getByText(/investor-b: \+40\s000/)).toBeInTheDocument();
   await command("Повторить ту же операцию");
+  await screen.findByText(/Повтор: операция уже выполнена/);
   await waitFor(() =>
     expect(
       screen.getByRole("button", { name: "Повторить ту же операцию" }),
