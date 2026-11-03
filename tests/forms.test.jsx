@@ -2,6 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { expect, it, vi } from "vitest";
 import { CommandForm } from "../src/components/CommandForm";
+import { ProjectCard } from "../src/components/ProjectCard";
 import App from "../src/App";
 
 it("reuses a financial key after a failed request and remount", async () => {
@@ -59,4 +60,28 @@ it("does not render stale regional data after switching to an investor", async (
   expect(
     screen.queryByRole("button", { name: "Опубликовать" }),
   ).not.toBeInTheDocument();
+});
+
+it("hides the proposal form once another technologist's solution is matched", () => {
+  render(
+    <ProjectCard
+      project={{
+        id: "p",
+        title: "Очистка воды",
+        solutions: [
+          { id: "s", technologist_id: "tech-other", description: "Своё" },
+        ],
+        matched: true,
+        match: null,
+        pool: null,
+      }}
+      user={{ id: "tech-other", role: "technologist" }}
+      execute={vi.fn()}
+      busy={false}
+    />,
+  );
+  expect(
+    screen.queryByRole("button", { name: "Предложить решение" }),
+  ).not.toBeInTheDocument();
+  expect(screen.getByText(/решение другого технолога/)).toBeInTheDocument();
 });
