@@ -1,0 +1,14 @@
+services:
+  web:
+    build: .
+    ports:
+      - "127.0.0.1:5173:80"
+    environment:
+      API_UPSTREAM: http://app:8080
+    networks:
+      - backend
+    restart: unless-stopped
+networks:
+  backend:
+    external: true
+    name: ${BACKEND_NETWORK:-invest-pool_default}

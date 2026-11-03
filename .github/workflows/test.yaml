@@ -1,0 +1,39 @@
+name: checks
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run format:check
+      - run: npm test
+      - run: npm run build
+      - uses: actions/checkout@v4
+        with:
+          repository: phosphoriat/invest-pool-go
+          path: backend
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: backend/go.mod
+          cache-dependency-path: backend/go.sum
+      - run: go build -o bin/invest-pool ./cmd
+        working-directory: backend
+      - run: npm run test:live
+        env:
+          GO_BACKEND_BINARY: ./backend/bin/invest-pool
+      - run: docker compose -p invest-pool up --build -d --wait
+        working-directory: backend
+      - run: docker compose up --build -d --wait
+      - run: curl --fail http://localhost:5173/ && curl --fail http://localhost:5173/api/users
+      - if: always()
+        run: docker compose logs && docker compose down
+      - if: always()
+        run: docker compose -p invest-pool down -v
+        working-directory: backend

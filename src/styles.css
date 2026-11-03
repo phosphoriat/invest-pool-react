@@ -1,0 +1,165 @@
+:root {
+  font:
+    16px/1.5 system-ui,
+    sans-serif;
+  color: #182d36;
+  background: #f2f5f3;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  max-width: 1100px;
+  margin: auto;
+  padding: 28px;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  align-items: center;
+  border-bottom: 1px solid #ccd8d0;
+  padding-bottom: 24px;
+}
+h1 {
+  font-size: 28px;
+  letter-spacing: -1px;
+  margin: 4px 0;
+}
+h2 {
+  font-size: 21px;
+}
+h3 {
+  margin: 8px 0;
+}
+small,
+.muted {
+  color: #52656c;
+}
+select,
+input,
+button,
+textarea {
+  font: inherit;
+  border: 1px solid #a5b8ae;
+  border-radius: 7px;
+  padding: 10px;
+  background: white;
+}
+input,
+textarea {
+  max-width: 100%;
+  min-width: 190px;
+}
+button {
+  cursor: pointer;
+  background: #17694f;
+  color: white;
+  border-color: #17694f;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+form {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: end;
+  margin: 15px 0;
+}
+label {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  gap: 4px;
+}
+.card {
+  background: white;
+  border: 1px solid #d8e2dc;
+  border-radius: 12px;
+  padding: 22px;
+  margin: 16px 0;
+}
+.badge {
+  display: inline-block;
+  padding: 3px 10px;
+  background: #e5f1e9;
+  color: #23583f;
+  border-radius: 20px;
+  font-size: 13px;
+}
+.numbers {
+  font-size: 25px;
+  font-weight: 650;
+}
+progress {
+  width: 100%;
+  accent-color: #17694f;
+  height: 12px;
+}
+.message {
+  position: sticky;
+  top: 10px;
+  padding: 12px;
+  border-radius: 8px;
+  z-index: 1;
+  background: #dcefe2;
+}
+.message.error {
+  background: #fce1df;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+td,
+th {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #e1e7e3;
+}
+pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+}
+details {
+  margin: 12px 0;
+}
+footer {
+  margin: 30px 0;
+  color: #52656c;
+  font-size: 13px;
+}
+.guide {
+  padding: 15px 20px;
+  border-left: 3px solid #17694f;
+}
+#roleHelp {
+  margin: 18px 0;
+}
+@media (max-width: 650px) {
+  header {
+    display: block;
+  }
+  body {
+    padding: 16px;
+  }
+  select {
+    width: 100%;
+  }
+}
+
+.error {
+  color: #8b2923;
+}
+fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  display: contents;
+}
+.busy {
+  color: #52656c;
+}
