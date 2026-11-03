@@ -94,7 +94,6 @@ export function ProjectCard({ project, user, execute, busy }) {
               {...command}
               label="Зафиксировать прибыль"
               path={`${base}/profit`}
-              scope={`${user.id}:${pool.id}:profit`}
               fields={[
                 {
                   name: "amount",
@@ -121,10 +120,7 @@ export function ProjectCard({ project, user, execute, busy }) {
                   {...command}
                   label="Повторить ту же операцию"
                   path={`${base}/profit`}
-                  extra={{
-                    amount: pool.distribution.profit,
-                    key: pool.distribution.key,
-                  }}
+                  extra={{ amount: pool.distribution.profit }}
                 />
               )}
               <small>Распределение: {pool.distribution.id}</small>
